@@ -25,7 +25,7 @@ export default function ScopeAlert({ alert, meetingTitle, onStatusChange }: Scop
       onStatusChange?.();
     } catch (error) {
       console.error(error);
-      alert('Failed to update status');
+      window.alert('Failed to update status');
     } finally {
       setUpdating(false);
     }
