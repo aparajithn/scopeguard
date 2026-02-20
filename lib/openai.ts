@@ -1,10 +1,13 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+function getOpenAIClient() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 export async function transcribeAudio(audioBuffer: Buffer): Promise<string> {
+  const openai = getOpenAIClient();
   // Convert Buffer to Uint8Array for Blob compatibility
   const uint8Array = new Uint8Array(audioBuffer);
   const blob = new Blob([uint8Array], { type: 'audio/mpeg' });
@@ -19,6 +22,7 @@ export async function transcribeAudio(audioBuffer: Buffer): Promise<string> {
 }
 
 export async function extractScope(contractText: string) {
+  const openai = getOpenAIClient();
   const response = await openai.chat.completions.create({
     model: 'gpt-4o',
     messages: [
@@ -45,6 +49,7 @@ Be precise and extract only what's explicitly stated.`
 }
 
 export async function analyzeMeeting(transcript: string, scopeSummary: any) {
+  const openai = getOpenAIClient();
   const response = await openai.chat.completions.create({
     model: 'gpt-4o',
     messages: [
