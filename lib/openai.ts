@@ -5,7 +5,8 @@ const openai = new OpenAI({
 });
 
 export async function transcribeAudio(audioBuffer: Buffer): Promise<string> {
-  const file = new File([audioBuffer], 'audio.mp3', { type: 'audio/mpeg' });
+  const blob = new Blob([audioBuffer], { type: 'audio/mpeg' });
+  const file = new File([blob], 'audio.mp3', { type: 'audio/mpeg' });
   
   const transcription = await openai.audio.transcriptions.create({
     file: file,
